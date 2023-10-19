@@ -1,5 +1,8 @@
 package dev.marcoreitano.master.amundsen.game;
 
+import dev.marcoreitano.master.amundsen.game.events.GameCreated;
+import dev.marcoreitano.master.amundsen.game.events.GameStarted;
+import dev.marcoreitano.master.amundsen.game.events.PlayerJoined;
 import dev.marcoreitano.master.amundsen.game.internal.GameStatus;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
 import jakarta.transaction.Transactional;
@@ -8,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.modulith.test.ApplicationModuleTest;
 import org.springframework.modulith.test.PublishedEvents;
 
+import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -33,6 +37,9 @@ public class GameTests {
         //Then
         assertNotNull(game);
         assertEquals(GameStatus.CREATED, game.getStatus());
+        assertEquals(58, game.getRounds());
+        assertEquals(Duration.ofSeconds(20), game.getRoundDuration());
+        assertEquals(6, game.getMaxPlayer());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package dev.marcoreitano.master.amundsen.trading;
 
 import dev.marcoreitano.master.amundsen.game.GameId;
+import dev.marcoreitano.master.amundsen.trading.internal.Shops;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.jmolecules.ddd.annotation.Service;

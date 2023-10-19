@@ -1,5 +1,6 @@
 package dev.marcoreitano.master.amundsen.registration;
 
+import dev.marcoreitano.master.amundsen.registration.internal.Players;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.jmolecules.ddd.annotation.Service;

@@ -1,19 +1,18 @@
 package dev.marcoreitano.master.amundsen.trading.internal;
 
-import dev.marcoreitano.master.amundsen.game.GameCreated;
-import dev.marcoreitano.master.amundsen.game.PlayerJoined;
-import dev.marcoreitano.master.amundsen.trading.Shops;
+import dev.marcoreitano.master.amundsen.game.events.GameCreated;
+import dev.marcoreitano.master.amundsen.game.events.PlayerJoined;
 import dev.marcoreitano.master.amundsen.trading.TradingManagement;
 import lombok.RequiredArgsConstructor;
 import org.jmolecules.ddd.types.Association;
-import org.springframework.modulith.ApplicationModuleListener;
+import org.springframework.modulith.events.ApplicationModuleListener;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
 @Component
 @RequiredArgsConstructor
-public class Eventhandler {
+public class EventListener {
 
     private final TradingManagement tradingManagement;
     private final Shops shops;

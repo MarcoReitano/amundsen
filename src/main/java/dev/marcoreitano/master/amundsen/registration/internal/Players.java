@@ -1,5 +1,7 @@
-package dev.marcoreitano.master.amundsen.registration;
+package dev.marcoreitano.master.amundsen.registration.internal;
 
+import dev.marcoreitano.master.amundsen.registration.Player;
+import dev.marcoreitano.master.amundsen.registration.PlayerId;
 import org.jmolecules.ddd.integration.AssociationResolver;
 import org.jmolecules.ddd.types.Repository;
 

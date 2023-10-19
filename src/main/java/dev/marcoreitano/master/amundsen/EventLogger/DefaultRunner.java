@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
+
 @Component
 @RequiredArgsConstructor
 public class DefaultRunner implements CommandLineRunner {
@@ -30,11 +32,10 @@ public class DefaultRunner implements CommandLineRunner {
     public void defaultGameflow() {
         LOG.info("Running a default Gameflow...");
         Player player = registrationManagement.registerPlayer();
-        Game game = gameManagement.createGame();
+        Game game = gameManagement.createGame(1, 2, Duration.ofMillis(10));
         game.join(player.getId());
         gameManagement.startGame(game);
         games.save(game);
-
     }
 
 

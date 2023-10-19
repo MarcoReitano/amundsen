@@ -11,12 +11,14 @@ class AmundsenApplicationTests {
     @Test
     void contextLoads() {
     }
-    
+
     @Test
     void writeDocumentationSnippets() {
 
         var modules = ApplicationModules.of(AmundsenApplication.class).verify();
 
+//        modules.forEach(System.out::println);
+        
         new Documenter(modules)
                 .writeModulesAsPlantUml()
                 .writeIndividualModulesAsPlantUml();

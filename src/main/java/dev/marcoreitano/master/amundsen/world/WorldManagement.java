@@ -1,7 +1,7 @@
 package dev.marcoreitano.master.amundsen.world;
 
 import dev.marcoreitano.master.amundsen.game.GameId;
-import dev.marcoreitano.master.amundsen.game.GameStarted;
+import dev.marcoreitano.master.amundsen.game.events.GameStarted;
 import dev.marcoreitano.master.amundsen.world.internal.Coordinates;
 import dev.marcoreitano.master.amundsen.world.internal.Planets;
 import jakarta.transaction.Transactional;

@@ -1,10 +1,11 @@
 package dev.marcoreitano.master.amundsen.trading;
 
-import dev.marcoreitano.master.amundsen.game.GameCreated;
 import dev.marcoreitano.master.amundsen.game.GameId;
-import dev.marcoreitano.master.amundsen.game.GameStarted;
-import dev.marcoreitano.master.amundsen.game.PlayerJoined;
+import dev.marcoreitano.master.amundsen.game.events.GameCreated;
+import dev.marcoreitano.master.amundsen.game.events.GameStarted;
+import dev.marcoreitano.master.amundsen.game.events.PlayerJoined;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
+import dev.marcoreitano.master.amundsen.trading.internal.Shops;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,7 @@ import org.springframework.modulith.test.PublishedEvents;
 import org.springframework.modulith.test.Scenario;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -141,7 +143,7 @@ public class TradingTests {
         shops.save(shop.get());
 
         //When/Then
-        scenario.publish(new GameStarted(gameId, 2))
+        scenario.publish(new GameStarted(gameId, 2, 20, Duration.ofSeconds(20)))
                 .andWaitForStateChange(() -> {
                     var persistedShop = shops.findById(shopId);
                     assertTrue(persistedShop.isPresent());

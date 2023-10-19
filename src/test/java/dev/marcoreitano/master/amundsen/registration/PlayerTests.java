@@ -1,5 +1,6 @@
 package dev.marcoreitano.master.amundsen.registration;
 
+import dev.marcoreitano.master.amundsen.registration.internal.Players;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.modulith.test.ApplicationModuleTest;

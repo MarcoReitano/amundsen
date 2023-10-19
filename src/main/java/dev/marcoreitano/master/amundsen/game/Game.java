@@ -1,5 +1,8 @@
 package dev.marcoreitano.master.amundsen.game;
 
+import dev.marcoreitano.master.amundsen.game.events.GameEnded;
+import dev.marcoreitano.master.amundsen.game.events.GameStarted;
+import dev.marcoreitano.master.amundsen.game.events.PlayerJoined;
 import dev.marcoreitano.master.amundsen.game.internal.GameStatus;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
 import jakarta.persistence.ElementCollection;
@@ -8,6 +11,8 @@ import lombok.Getter;
 import org.jmolecules.ddd.types.AggregateRoot;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -20,22 +25,25 @@ public class Game extends AbstractAggregateRoot<Game> implements AggregateRoot<G
 
     private GameStatus status;
     private Integer maxPlayer;
-    private Integer maxRounds;
+    private Integer rounds;
+    private Duration roundDuration;
 
     @ElementCollection
     private Set<PlayerId> participants;
 
     protected Game() {
-        this(58, 6);
+        this(6, 58, Duration.of(20, ChronoUnit.SECONDS));
     }
 
-    protected Game(Integer maxRounds, Integer maxPlayer) {
+    protected Game(Integer maxPlayer, Integer rounds, Duration roundDuration) {
         this.id = new GameId(UUID.randomUUID());
         this.status = GameStatus.CREATED;
         this.participants = new HashSet<>();
 
-        this.maxRounds = maxRounds;
         this.maxPlayer = maxPlayer;
+        this.rounds = rounds;
+        this.roundDuration = roundDuration;
+
     }
 
     public void join(PlayerId playerId) {
@@ -60,4 +68,10 @@ public class Game extends AbstractAggregateRoot<Game> implements AggregateRoot<G
         registerEvent(new GameStarted(this));
     }
 
+    public void end() {
+        if (status != GameStatus.STARTED)
+            throw new IllegalStateException("Only games in status 'started' can be ended!");
+
+        registerEvent(new GameEnded(this));
+    }
 }
