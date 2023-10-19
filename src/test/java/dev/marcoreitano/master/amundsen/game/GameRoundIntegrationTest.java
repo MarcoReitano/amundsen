@@ -1,6 +1,6 @@
 package dev.marcoreitano.master.amundsen.game;
 
-import dev.marcoreitano.master.amundsen.game.events.RoundStarted;
+import dev.marcoreitano.master.amundsen.game.events.GameEnded;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +11,7 @@ import org.springframework.modulith.test.Scenario;
 import java.time.Duration;
 import java.util.UUID;
 
-@ApplicationModuleTest
+@ApplicationModuleTest(extraIncludes = "gamemaster")
 @RequiredArgsConstructor
 public class GameRoundIntegrationTest {
 
@@ -36,11 +36,9 @@ public class GameRoundIntegrationTest {
                     gameManagement.startGame(game);
                     games.save(game); //Needs to be saved manually, so the transaction commits?!
                 })
-                .andWaitForEventOfType(RoundStarted.class)
+                .andWaitForEventOfType(GameEnded.class)
                 .matching(event -> event.gameId().equals(game.getId()))
-                .toArriveAndVerify(
-                        event -> event.number().equals(1)
-                );
+                .toArrive();
         //Then
     }
 

@@ -17,7 +17,6 @@ public class GameManagement {
 
     private final ApplicationEventPublisher events;
     private final Games games;
-    private final RoundManagement roundManagement;
 
     public Game createGame() {
 

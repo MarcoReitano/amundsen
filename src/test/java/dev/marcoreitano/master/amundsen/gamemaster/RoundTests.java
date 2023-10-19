@@ -1,10 +1,11 @@
-package dev.marcoreitano.master.amundsen.game;
+package dev.marcoreitano.master.amundsen.gamemaster;
 
+import dev.marcoreitano.master.amundsen.game.GameId;
 import dev.marcoreitano.master.amundsen.game.events.GameStarted;
-import dev.marcoreitano.master.amundsen.game.events.RoundEnded;
-import dev.marcoreitano.master.amundsen.game.events.RoundStarted;
-import dev.marcoreitano.master.amundsen.game.internal.RoundPhase;
-import dev.marcoreitano.master.amundsen.game.internal.Rounds;
+import dev.marcoreitano.master.amundsen.gamemaster.events.RoundEnded;
+import dev.marcoreitano.master.amundsen.gamemaster.events.RoundStarted;
+import dev.marcoreitano.master.amundsen.gamemaster.internal.RoundPhase;
+import dev.marcoreitano.master.amundsen.gamemaster.internal.Rounds;
 import lombok.RequiredArgsConstructor;
 import org.jmolecules.ddd.types.Association;
 import org.junit.jupiter.api.Test;

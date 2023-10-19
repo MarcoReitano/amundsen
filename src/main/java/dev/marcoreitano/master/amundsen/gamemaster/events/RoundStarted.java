@@ -1,8 +1,8 @@
-package dev.marcoreitano.master.amundsen.game.events;
+package dev.marcoreitano.master.amundsen.gamemaster.events;
 
 import dev.marcoreitano.master.amundsen.game.GameId;
-import dev.marcoreitano.master.amundsen.game.Round;
-import dev.marcoreitano.master.amundsen.game.RoundId;
+import dev.marcoreitano.master.amundsen.gamemaster.Round;
+import dev.marcoreitano.master.amundsen.gamemaster.RoundId;
 import org.jmolecules.event.types.DomainEvent;
 
 public record RoundStarted(GameId gameId, RoundId roundId, Integer number) implements DomainEvent {
