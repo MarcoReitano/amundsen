@@ -1,4 +1,4 @@
-package dev.marcoreitano.master.amundsen.game.internal;
+package dev.marcoreitano.master.amundsen.gamemaster.internal;
 
 public enum RoundPhase {
     UPCOMING,

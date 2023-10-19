@@ -1,6 +1,7 @@
-package dev.marcoreitano.master.amundsen.game;
+package dev.marcoreitano.master.amundsen.gamemaster;
 
-import dev.marcoreitano.master.amundsen.game.internal.Rounds;
+import dev.marcoreitano.master.amundsen.game.GameId;
+import dev.marcoreitano.master.amundsen.gamemaster.internal.Rounds;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.jmolecules.ddd.annotation.Service;

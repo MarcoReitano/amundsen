@@ -1,4 +1,4 @@
-package dev.marcoreitano.master.amundsen.game;
+package dev.marcoreitano.master.amundsen.gamemaster;
 
 import org.jmolecules.ddd.types.Identifier;
 

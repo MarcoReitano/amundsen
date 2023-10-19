@@ -1,7 +1,7 @@
-package dev.marcoreitano.master.amundsen.game.internal;
+package dev.marcoreitano.master.amundsen.gamemaster.internal;
 
-import dev.marcoreitano.master.amundsen.game.Round;
 import dev.marcoreitano.master.amundsen.game.events.GameStarted;
+import dev.marcoreitano.master.amundsen.gamemaster.Round;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.modulith.events.ApplicationModuleListener;

@@ -1,6 +1,11 @@
 package dev.marcoreitano.master.amundsen.EventLogger;
 
-import dev.marcoreitano.master.amundsen.game.events.*;
+import dev.marcoreitano.master.amundsen.game.events.GameCreated;
+import dev.marcoreitano.master.amundsen.game.events.GameEnded;
+import dev.marcoreitano.master.amundsen.game.events.GameStarted;
+import dev.marcoreitano.master.amundsen.game.events.PlayerJoined;
+import dev.marcoreitano.master.amundsen.gamemaster.events.RoundEnded;
+import dev.marcoreitano.master.amundsen.gamemaster.events.RoundStarted;
 import dev.marcoreitano.master.amundsen.world.WorldCreated;
 import lombok.extern.slf4j.Slf4j;
 import org.jmolecules.ddd.annotation.Service;
@@ -17,7 +22,7 @@ public class EventLogger {
 
     @ApplicationModuleListener
     void on(PlayerJoined playerJoined) {
-        log.info("It seems like a player joined a game!");
+        log.info("It seems like a player " + playerJoined.getPlayerId() + " joined a game!");
     }
 
     @ApplicationModuleListener
@@ -27,7 +32,7 @@ public class EventLogger {
 
     @ApplicationModuleListener
     void on(WorldCreated worldCreated) {
-        log.info("A world was created!");
+        log.info("A world for game " + worldCreated.gameId() + " was created!");
     }
 
     @ApplicationModuleListener

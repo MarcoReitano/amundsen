@@ -1,9 +1,9 @@
-package dev.marcoreitano.master.amundsen.game.internal;
+package dev.marcoreitano.master.amundsen.gamemaster.internal;
 
 import dev.marcoreitano.master.amundsen.game.Game;
 import dev.marcoreitano.master.amundsen.game.GameId;
-import dev.marcoreitano.master.amundsen.game.Round;
-import dev.marcoreitano.master.amundsen.game.RoundId;
+import dev.marcoreitano.master.amundsen.gamemaster.Round;
+import dev.marcoreitano.master.amundsen.gamemaster.RoundId;
 import dev.marcoreitano.master.amundsen.registration.Player;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
 import org.jmolecules.ddd.integration.AssociationResolver;
