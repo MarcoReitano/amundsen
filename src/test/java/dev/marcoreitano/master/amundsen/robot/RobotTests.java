@@ -4,6 +4,7 @@ import dev.marcoreitano.master.amundsen.engine.GameId;
 import dev.marcoreitano.master.amundsen.planing.GamePlanId;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
 import dev.marcoreitano.master.amundsen.robot.internal.Robots;
+import dev.marcoreitano.master.amundsen.robot.internal.SpawnInfo;
 import dev.marcoreitano.master.amundsen.robot.internal.SpawnInfos;
 import dev.marcoreitano.master.amundsen.trading.RobotBought;
 import dev.marcoreitano.master.amundsen.world.PlanetId;
@@ -16,6 +17,7 @@ import org.springframework.modulith.test.PublishedEvents;
 import org.springframework.modulith.test.Scenario;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -73,6 +75,8 @@ public class RobotTests {
         GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
         GameId gameId = new GameId(gamePlanId.id());
         PlanetId planetId = new PlanetId(UUID.randomUUID());
+        SpawnInfo spawnInfo = new SpawnInfo(gameId, List.of(planetId));
+        spawnInfos.save(spawnInfo);
 
         //When / Then
         scenario.publish(new RobotBought(gameId, playerId))
@@ -108,7 +112,7 @@ public class RobotTests {
     }
 
     @Test
-    void memorizeSpawnpoints(Scenario scenario) {
+    void memorizeSpawnPoints(Scenario scenario) {
         //Given
         GameId gameId = new GameId(UUID.randomUUID());
         PlanetId mars = new PlanetId(UUID.randomUUID());
