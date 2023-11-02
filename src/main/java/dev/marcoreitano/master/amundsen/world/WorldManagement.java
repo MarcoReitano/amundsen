@@ -1,16 +1,16 @@
 package dev.marcoreitano.master.amundsen.world;
 
-import dev.marcoreitano.master.amundsen.game.GameId;
-import dev.marcoreitano.master.amundsen.game.events.GameStarted;
+import dev.marcoreitano.master.amundsen.engine.GameId;
 import dev.marcoreitano.master.amundsen.world.internal.Coordinates;
 import dev.marcoreitano.master.amundsen.world.internal.Planets;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.jmolecules.ddd.annotation.Service;
+import org.jmolecules.ddd.types.Association;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.modulith.ApplicationModuleListener;
+
 
 @Transactional
 @Service
@@ -20,14 +20,21 @@ public class WorldManagement {
     private final ApplicationEventPublisher events;
     private final Planets planets;
 
-    @ApplicationModuleListener
-    void handleGameStarted(GameStarted gameStarted) {
+    Planet createPlanet(GameId gameId, Coordinates coordinates, int movementDifficulty) {
+        Planet planet = new Planet(gameId, coordinates, movementDifficulty);
 
-        var mapSize = calculateMapSize(gameStarted.participantCount());
+        return planets.save(planet);
+    }
 
-        generateMap(gameStarted.gameId(), mapSize);
+    public void generateMapByParticipants(GameId gameId, int participantCount) {
+        var mapSize = calculateMapSize(participantCount);
 
-        events.publishEvent(new WorldCreated(gameStarted.gameId()));
+        generateMap(gameId, mapSize);
+
+        var spawnablePlanetsOfGame = planets.findAllByGameId(Association.forId(gameId));
+        var spawnablePlanetIdsOfGame = spawnablePlanetsOfGame.stream().map(Planet::getId).toList();
+
+        events.publishEvent(new WorldCreated(gameId, spawnablePlanetIdsOfGame));
     }
 
     int calculateMapSize(int playerCount) {
@@ -44,11 +51,5 @@ public class WorldManagement {
                 createPlanet(gameId, new Coordinates(x, y), 1);
             }
         }
-    }
-
-    public Planet createPlanet(GameId gameId, Coordinates coordinates, int movementDifficulty) {
-        Planet planet = new Planet(gameId, coordinates, movementDifficulty);
-
-        return planets.save(planet);
     }
 }

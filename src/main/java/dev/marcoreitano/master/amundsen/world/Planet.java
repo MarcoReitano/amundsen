@@ -1,7 +1,7 @@
 package dev.marcoreitano.master.amundsen.world;
 
-import dev.marcoreitano.master.amundsen.game.Game;
-import dev.marcoreitano.master.amundsen.game.GameId;
+import dev.marcoreitano.master.amundsen.engine.Game;
+import dev.marcoreitano.master.amundsen.engine.GameId;
 import dev.marcoreitano.master.amundsen.world.internal.Coordinates;
 import lombok.Getter;
 import org.jmolecules.ddd.types.AggregateRoot;
@@ -19,9 +19,9 @@ public class Planet extends AbstractAggregateRoot<Planet> implements AggregateRo
     private final Coordinates coordinates;
     private final int movementDifficulty;
 
-    protected Planet(GameId gameId, Coordinates coordinates, int movementDifficulty) {
+    protected Planet(GameId gamePlanId, Coordinates coordinates, int movementDifficulty) {
         this.id = new PlanetId(UUID.randomUUID());
-        this.gameId = Association.forId(gameId);
+        this.gameId = Association.forId(gamePlanId);
         this.coordinates = coordinates;
         this.movementDifficulty = movementDifficulty;
     }

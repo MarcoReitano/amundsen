@@ -1,14 +1,12 @@
 package dev.marcoreitano.master.amundsen.trading;
 
-import dev.marcoreitano.master.amundsen.game.GameId;
-import dev.marcoreitano.master.amundsen.game.events.GameCreated;
-import dev.marcoreitano.master.amundsen.game.events.GameStarted;
-import dev.marcoreitano.master.amundsen.game.events.PlayerJoined;
+import dev.marcoreitano.master.amundsen.planing.GamePlanId;
+import dev.marcoreitano.master.amundsen.planing.events.GamePlanScheduled;
+import dev.marcoreitano.master.amundsen.planing.events.GamePlanned;
+import dev.marcoreitano.master.amundsen.planing.events.PlayerJoined;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
-import dev.marcoreitano.master.amundsen.trading.internal.Shops;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.modulith.test.ApplicationModuleTest;
 import org.springframework.modulith.test.PublishedEvents;
 import org.springframework.modulith.test.Scenario;
@@ -21,7 +19,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ApplicationModuleTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ApplicationModuleTest
 @RequiredArgsConstructor
 public class TradingTests {
 
@@ -32,10 +30,10 @@ public class TradingTests {
     @Test
     public void createShop() {
         //Given
-        GameId gameId = new GameId(UUID.randomUUID());
+        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
 
         //When
-        ShopId shopId = tradingManagement.createShop(gameId);
+        ShopId shopId = tradingManagement.createShop(gamePlanId);
 
         //Then
         assertNotNull(shopId);
@@ -44,10 +42,10 @@ public class TradingTests {
     @Test
     public void persistShop() {
         //Given
-        GameId gameId = new GameId(UUID.randomUUID());
+        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
 
         //When
-        ShopId shopId = tradingManagement.createShop(gameId);
+        ShopId shopId = tradingManagement.createShop(gamePlanId);
         var shop = shops.findById(shopId);
 
         //Then
@@ -58,9 +56,9 @@ public class TradingTests {
     @Test
     public void createAccount() {
         //Given
-        GameId gameId = new GameId(UUID.randomUUID());
+        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
         PlayerId playerId = new PlayerId(UUID.randomUUID());
-        ShopId shopId = tradingManagement.createShop(gameId);
+        ShopId shopId = tradingManagement.createShop(gamePlanId);
 
         //When
         var shop = shops.findById(shopId);
@@ -77,9 +75,9 @@ public class TradingTests {
     @Test
     public void persistAccount() {
         //Given
-        GameId gameId = new GameId(UUID.randomUUID());
+        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
         PlayerId playerId = new PlayerId(UUID.randomUUID());
-        ShopId shopId = tradingManagement.createShop(gameId);
+        ShopId shopId = tradingManagement.createShop(gamePlanId);
 
         //When
         var shop = shops.findById(shopId);
@@ -100,12 +98,12 @@ public class TradingTests {
     @Test
     public void createShopWhenGameIsCreated(Scenario scenario) {
         //Given
-        GameId gameId = new GameId(UUID.randomUUID());
+        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
 
         //When/Then
-        scenario.publish(new GameCreated(gameId, 1, 1))
+        scenario.publish(new GamePlanned(gamePlanId, 1, 1))
                 .andWaitForEventOfType(ShopCreated.class)
-                .matching(event -> event.gameId().equals(gameId)).toArrive();
+                .matching(event -> event.gamePlanId().equals(gamePlanId)).toArrive();
 
         //Then
     }
@@ -113,12 +111,12 @@ public class TradingTests {
     @Test
     public void openAccountWhenPlayerJoins(Scenario scenario) {
         //Given
-        GameId gameId = new GameId(UUID.randomUUID());
+        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
         PlayerId playerId = new PlayerId(UUID.randomUUID());
-        ShopId shopId = tradingManagement.createShop(gameId);
+        ShopId shopId = tradingManagement.createShop(gamePlanId);
 
         //When/Then
-        scenario.publish(new PlayerJoined(gameId, playerId))
+        scenario.publish(new PlayerJoined(gamePlanId, playerId))
                 .andWaitForStateChange(() -> {
                     var shop = shops.findById(shopId);
                     assertTrue(shop.isPresent());
@@ -134,16 +132,16 @@ public class TradingTests {
     @Test
     public void depositInitialBalanceWhenGameStarts(Scenario scenario) {
         //Given
-        GameId gameId = new GameId(UUID.randomUUID());
+        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
         PlayerId playerId = new PlayerId(UUID.randomUUID());
-        ShopId shopId = tradingManagement.createShop(gameId);
+        ShopId shopId = tradingManagement.createShop(gamePlanId);
         var shop = shops.findById(shopId);
         shop.ifPresent(it -> it.openAccount(playerId, BigDecimal.valueOf(500)));
 
         shops.save(shop.get());
 
         //When/Then
-        scenario.publish(new GameStarted(gameId, 2, 20, Duration.ofSeconds(20)))
+        scenario.publish(new GamePlanScheduled(gamePlanId, 2, 20, Duration.ofSeconds(20)))
                 .andWaitForStateChange(() -> {
                     var persistedShop = shops.findById(shopId);
                     assertTrue(persistedShop.isPresent());
@@ -158,9 +156,9 @@ public class TradingTests {
     @Test
     public void buyNewRobotForPlayerShouldPublishPlayerBought(PublishedEvents events) {
         //Given
-        GameId gameId = new GameId(UUID.randomUUID());
+        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
         PlayerId playerId = new PlayerId(UUID.randomUUID());
-        ShopId shopId = tradingManagement.createShop(gameId);
+        ShopId shopId = tradingManagement.createShop(gamePlanId);
         var shop = shops.findById(shopId);
         shop.ifPresent(it -> it.openAccount(playerId, BigDecimal.valueOf(500)));
         shops.save(shop.get());

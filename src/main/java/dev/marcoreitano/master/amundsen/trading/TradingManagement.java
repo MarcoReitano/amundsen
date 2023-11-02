@@ -1,7 +1,6 @@
 package dev.marcoreitano.master.amundsen.trading;
 
-import dev.marcoreitano.master.amundsen.game.GameId;
-import dev.marcoreitano.master.amundsen.trading.internal.Shops;
+import dev.marcoreitano.master.amundsen.planing.GamePlanId;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.jmolecules.ddd.annotation.Service;
@@ -16,10 +15,10 @@ public class TradingManagement {
 
     private final Shops shops;
 
-    public ShopId createShop(GameId gameId) {
-        Shop shop = shops.save(new Shop(gameId));
+    public ShopId createShop(GamePlanId gamePlanId) {
+        Shop shop = shops.save(new Shop(gamePlanId));
 
-        events.publishEvent(new ShopCreated(gameId, shop.getId()));
+        events.publishEvent(new ShopCreated(gamePlanId, shop.getId()));
 
         return shop.getId();
     }

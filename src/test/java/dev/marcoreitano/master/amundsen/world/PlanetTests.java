@@ -1,6 +1,6 @@
 package dev.marcoreitano.master.amundsen.world;
 
-import dev.marcoreitano.master.amundsen.game.GameId;
+import dev.marcoreitano.master.amundsen.engine.GameId;
 import dev.marcoreitano.master.amundsen.world.internal.Coordinates;
 import dev.marcoreitano.master.amundsen.world.internal.Planets;
 import lombok.RequiredArgsConstructor;

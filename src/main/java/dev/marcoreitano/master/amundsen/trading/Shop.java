@@ -1,7 +1,7 @@
 package dev.marcoreitano.master.amundsen.trading;
 
-import dev.marcoreitano.master.amundsen.game.Game;
-import dev.marcoreitano.master.amundsen.game.GameId;
+import dev.marcoreitano.master.amundsen.planing.GamePlan;
+import dev.marcoreitano.master.amundsen.planing.GamePlanId;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
 import dev.marcoreitano.master.amundsen.trading.internal.Account;
 import jakarta.transaction.Transactional;
@@ -22,14 +22,14 @@ import java.util.UUID;
 public class Shop extends AbstractAggregateRoot<Shop> implements AggregateRoot<Shop, ShopId> {
 
     private final ShopId id;
-    private final Association<Game, GameId> gameId;
+    private final Association<GamePlan, GamePlanId> gameId;
 
     @Getter(AccessLevel.NONE)
     private final List<Account> accounts;
 
-    protected Shop(GameId gameId) {
+    protected Shop(GamePlanId gamePlanId) {
         this.id = new ShopId(UUID.randomUUID());
-        this.gameId = Association.forId(gameId);
+        this.gameId = Association.forId(gamePlanId);
         this.accounts = new ArrayList<>();
     }
 
@@ -57,6 +57,6 @@ public class Shop extends AbstractAggregateRoot<Shop> implements AggregateRoot<S
     public void buyRobot(PlayerId playerId) {
         chargeAccount(playerId, BigDecimal.valueOf(-100));
 
-        registerEvent(new RobotBought(playerId));
+        registerEvent(new RobotBought(gameId.getId(), playerId));
     }
 }
