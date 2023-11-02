@@ -1,5 +1,6 @@
 package dev.marcoreitano.master.amundsen.engine.internal;
 
+
 import dev.marcoreitano.master.amundsen.engine.GameId;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

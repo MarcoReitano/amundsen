@@ -1,5 +1,6 @@
 package dev.marcoreitano.master.amundsen.trading.internal;
 
+import dev.marcoreitano.master.amundsen.engine.GameId;
 import dev.marcoreitano.master.amundsen.planing.events.GamePlanned;
 import dev.marcoreitano.master.amundsen.planing.events.PlayerJoined;
 import dev.marcoreitano.master.amundsen.trading.Shops;
@@ -20,7 +21,9 @@ public class EventListener {
 
     @ApplicationModuleListener
     public void openShopWhenGameIsCreated(GamePlanned gamePlanned) {
-        tradingManagement.createShop(gamePlanned.gamePlanId());
+        GameId gameId = new GameId(gamePlanned.gamePlanId().id());
+
+        tradingManagement.createShop(gameId);
     }
 
     @ApplicationModuleListener

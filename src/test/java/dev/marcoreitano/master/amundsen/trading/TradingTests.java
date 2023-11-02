@@ -1,5 +1,6 @@
 package dev.marcoreitano.master.amundsen.trading;
 
+import dev.marcoreitano.master.amundsen.engine.GameId;
 import dev.marcoreitano.master.amundsen.planing.GamePlanId;
 import dev.marcoreitano.master.amundsen.planing.events.GamePlanScheduled;
 import dev.marcoreitano.master.amundsen.planing.events.GamePlanned;
@@ -30,10 +31,10 @@ public class TradingTests {
     @Test
     public void createShop() {
         //Given
-        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
+        GameId gameId = new GameId(UUID.randomUUID());
 
         //When
-        ShopId shopId = tradingManagement.createShop(gamePlanId);
+        ShopId shopId = tradingManagement.createShop(gameId);
 
         //Then
         assertNotNull(shopId);
@@ -42,10 +43,10 @@ public class TradingTests {
     @Test
     public void persistShop() {
         //Given
-        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
+        GameId gameId = new GameId(UUID.randomUUID());
 
         //When
-        ShopId shopId = tradingManagement.createShop(gamePlanId);
+        ShopId shopId = tradingManagement.createShop(gameId);
         var shop = shops.findById(shopId);
 
         //Then
@@ -56,9 +57,9 @@ public class TradingTests {
     @Test
     public void createAccount() {
         //Given
-        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
+        GameId gameId = new GameId(UUID.randomUUID());
         PlayerId playerId = new PlayerId(UUID.randomUUID());
-        ShopId shopId = tradingManagement.createShop(gamePlanId);
+        ShopId shopId = tradingManagement.createShop(gameId);
 
         //When
         var shop = shops.findById(shopId);
@@ -75,9 +76,9 @@ public class TradingTests {
     @Test
     public void persistAccount() {
         //Given
-        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
+        GameId gameId = new GameId(UUID.randomUUID());
         PlayerId playerId = new PlayerId(UUID.randomUUID());
-        ShopId shopId = tradingManagement.createShop(gamePlanId);
+        ShopId shopId = tradingManagement.createShop(gameId);
 
         //When
         var shop = shops.findById(shopId);
@@ -99,11 +100,12 @@ public class TradingTests {
     public void createShopWhenGameIsCreated(Scenario scenario) {
         //Given
         GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
+        GameId gameId = new GameId(gamePlanId.id());
 
         //When/Then
         scenario.publish(new GamePlanned(gamePlanId, 1, 1))
                 .andWaitForEventOfType(ShopCreated.class)
-                .matching(event -> event.gamePlanId().equals(gamePlanId)).toArrive();
+                .matching(event -> event.gameId().equals(gameId)).toArrive();
 
         //Then
     }
@@ -112,8 +114,10 @@ public class TradingTests {
     public void openAccountWhenPlayerJoins(Scenario scenario) {
         //Given
         GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
+        GameId gameId = new GameId(gamePlanId.id());
+        
         PlayerId playerId = new PlayerId(UUID.randomUUID());
-        ShopId shopId = tradingManagement.createShop(gamePlanId);
+        ShopId shopId = tradingManagement.createShop(gameId);
 
         //When/Then
         scenario.publish(new PlayerJoined(gamePlanId, playerId))
@@ -133,8 +137,10 @@ public class TradingTests {
     public void depositInitialBalanceWhenGameStarts(Scenario scenario) {
         //Given
         GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
+        GameId gameId = new GameId(gamePlanId.id());
+
         PlayerId playerId = new PlayerId(UUID.randomUUID());
-        ShopId shopId = tradingManagement.createShop(gamePlanId);
+        ShopId shopId = tradingManagement.createShop(gameId);
         var shop = shops.findById(shopId);
         shop.ifPresent(it -> it.openAccount(playerId, BigDecimal.valueOf(500)));
 
@@ -157,8 +163,10 @@ public class TradingTests {
     public void buyNewRobotForPlayerShouldPublishPlayerBought(PublishedEvents events) {
         //Given
         GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
+        GameId gameId = new GameId(gamePlanId.id());
+
         PlayerId playerId = new PlayerId(UUID.randomUUID());
-        ShopId shopId = tradingManagement.createShop(gamePlanId);
+        ShopId shopId = tradingManagement.createShop(gameId);
         var shop = shops.findById(shopId);
         shop.ifPresent(it -> it.openAccount(playerId, BigDecimal.valueOf(500)));
         shops.save(shop.get());

@@ -16,7 +16,7 @@ public class RobotEventListener {
 
     @ApplicationModuleListener
     void handleRobotBought(RobotBought robotBought) {
-        robotManagement.spawnRobotAtRandomPlanet(robotBought.gamePlanId(), robotBought.playerId());
+        robotManagement.spawnRobotAtRandomPlanet(robotBought.gameId(), robotBought.playerId());
     }
 
     @ApplicationModuleListener

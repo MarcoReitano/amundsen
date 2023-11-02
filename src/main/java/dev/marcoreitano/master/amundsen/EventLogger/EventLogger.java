@@ -49,6 +49,7 @@ public class EventLogger {
     @ApplicationModuleListener
     void on(RoundsCreated roundsCreated) {
         log.info("Rounds were created for game " + roundsCreated.gameId());
+
     }
 
     @ApplicationModuleListener
