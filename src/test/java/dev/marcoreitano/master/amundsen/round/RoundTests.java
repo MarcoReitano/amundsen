@@ -1,11 +1,12 @@
-package dev.marcoreitano.master.amundsen.engine;
+package dev.marcoreitano.master.amundsen.round;
 
-import dev.marcoreitano.master.amundsen.engine.events.RoundEnded;
-import dev.marcoreitano.master.amundsen.engine.events.RoundStarted;
-import dev.marcoreitano.master.amundsen.engine.internal.RoundPhase;
-import dev.marcoreitano.master.amundsen.engine.internal.Rounds;
-import dev.marcoreitano.master.amundsen.planing.GamePlanId;
-import dev.marcoreitano.master.amundsen.planing.events.GamePlanScheduled;
+import dev.marcoreitano.master.amundsen.engine.GameId;
+import dev.marcoreitano.master.amundsen.engine.events.GameCreated;
+import dev.marcoreitano.master.amundsen.round.events.RoundEnded;
+import dev.marcoreitano.master.amundsen.round.events.RoundStarted;
+import dev.marcoreitano.master.amundsen.round.internal.RoundPhase;
+import dev.marcoreitano.master.amundsen.round.internal.Rounds;
+import dev.marcoreitano.master.amundsen.world.WorldCreated;
 import lombok.RequiredArgsConstructor;
 import org.jmolecules.ddd.types.Association;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,8 @@ import org.springframework.modulith.test.Scenario;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +30,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @RequiredArgsConstructor
 public class RoundTests {
 
-    private final GameManagement gameManagement;
     private final Rounds rounds;
 
     @Test
@@ -51,13 +53,13 @@ public class RoundTests {
     }
 
     @Test
-    public void createRoundsWhenGamePlanIsScheduled(Scenario scenario) {
+    public void createRoundsWhenGameCreated(Scenario scenario) {
         //Given
-        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
-        GameId gameId = new GameId(gamePlanId);
+
+        GameId gameId = new GameId(UUID.randomUUID());
 
         //When/Then
-        scenario.publish(new GamePlanScheduled(gamePlanId, 1, 20, Duration.ofSeconds(1)))
+        scenario.publish(new GameCreated(gameId, 20, Duration.ofSeconds(1), Set.of()))
                 .andWaitForStateChange(() ->
                                 rounds.findAllByGameId(Association.forId(gameId)),
                         it -> !it.isEmpty()
@@ -65,6 +67,22 @@ public class RoundTests {
 
         //Then
 
+    }
+
+    @Test
+    public void startRoundsWhenWorldCreated(Scenario scenario) {
+        //Given
+        GameId gameId = new GameId(UUID.randomUUID());
+        Round round = new Round(gameId, 1, Duration.ofSeconds(1));
+        rounds.save(round);
+
+        //When / Then
+        scenario.publish(new WorldCreated(gameId, List.of()))
+                .andWaitForEventOfType(RoundStarted.class)
+                .toArriveAndVerify(roundStarted -> {
+                    assertThat(roundStarted.roundId()).isEqualTo(round.getId());
+                });
+        //Then
     }
 
     @Test

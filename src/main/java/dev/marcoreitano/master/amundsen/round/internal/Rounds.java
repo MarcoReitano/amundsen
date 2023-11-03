@@ -1,11 +1,11 @@
-package dev.marcoreitano.master.amundsen.engine.internal;
+package dev.marcoreitano.master.amundsen.round.internal;
 
 import dev.marcoreitano.master.amundsen.engine.Game;
 import dev.marcoreitano.master.amundsen.engine.GameId;
-import dev.marcoreitano.master.amundsen.engine.Round;
-import dev.marcoreitano.master.amundsen.engine.RoundId;
 import dev.marcoreitano.master.amundsen.registration.Player;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
+import dev.marcoreitano.master.amundsen.round.Round;
+import dev.marcoreitano.master.amundsen.round.RoundId;
 import org.jmolecules.ddd.integration.AssociationResolver;
 import org.jmolecules.ddd.types.Association;
 import org.jmolecules.ddd.types.Repository;

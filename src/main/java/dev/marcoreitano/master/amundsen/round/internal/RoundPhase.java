@@ -1,4 +1,4 @@
-package dev.marcoreitano.master.amundsen.engine.internal;
+package dev.marcoreitano.master.amundsen.round.internal;
 
 
 public enum RoundPhase {

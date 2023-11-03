@@ -1,9 +1,9 @@
-package dev.marcoreitano.master.amundsen.engine.internal;
+package dev.marcoreitano.master.amundsen.round.internal;
 
-import dev.marcoreitano.master.amundsen.engine.Round;
 import dev.marcoreitano.master.amundsen.engine.events.GameCreated;
-import dev.marcoreitano.master.amundsen.engine.events.GameStarted;
-import dev.marcoreitano.master.amundsen.engine.events.RoundsCreated;
+import dev.marcoreitano.master.amundsen.round.Round;
+import dev.marcoreitano.master.amundsen.round.events.RoundsCreated;
+import dev.marcoreitano.master.amundsen.world.WorldCreated;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.modulith.events.ApplicationModuleListener;
@@ -30,7 +30,7 @@ public class RoundEventListener {
     }
 
     @ApplicationModuleListener
-    public void scheduleRoundAdvanceWhen(GameStarted gameStarted) {
-        roundScheduler.attachToGame(gameStarted.gameId());
+    public void scheduleRoundAdvanceWhen(WorldCreated worldCreated) {
+        roundScheduler.attachToGame(worldCreated.gameId());
     }
 }

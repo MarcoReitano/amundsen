@@ -15,6 +15,7 @@ import org.springframework.modulith.test.Scenario;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -115,7 +116,7 @@ public class TradingTests {
         //Given
         GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
         GameId gameId = new GameId(gamePlanId.id());
-        
+
         PlayerId playerId = new PlayerId(UUID.randomUUID());
         ShopId shopId = tradingManagement.createShop(gameId);
 
@@ -147,7 +148,7 @@ public class TradingTests {
         shops.save(shop.get());
 
         //When/Then
-        scenario.publish(new GamePlanScheduled(gamePlanId, 2, 20, Duration.ofSeconds(20)))
+        scenario.publish(new GamePlanScheduled(gamePlanId, 20, Duration.ofSeconds(20), Set.of(playerId)))
                 .andWaitForStateChange(() -> {
                     var persistedShop = shops.findById(shopId);
                     assertTrue(persistedShop.isPresent());

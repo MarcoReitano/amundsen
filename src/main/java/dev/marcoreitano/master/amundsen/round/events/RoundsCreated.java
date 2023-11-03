@@ -1,4 +1,4 @@
-package dev.marcoreitano.master.amundsen.engine.events;
+package dev.marcoreitano.master.amundsen.round.events;
 
 
 import dev.marcoreitano.master.amundsen.engine.GameId;
