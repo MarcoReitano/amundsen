@@ -1,5 +1,6 @@
 package dev.marcoreitano.master.amundsen.engine.internal;
 
+import dev.marcoreitano.master.amundsen.engine.GameId;
 import dev.marcoreitano.master.amundsen.engine.GameManagement;
 import dev.marcoreitano.master.amundsen.planing.events.GamePlanScheduled;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,8 @@ public class GameEventListener {
 
     @ApplicationModuleListener
     public void handleGameScheduled(GamePlanScheduled gamePlanScheduled) {
-        gameManagement.createGame(gamePlanScheduled.gamePlanId(), gamePlanScheduled.roundCount(), gamePlanScheduled.roundDuration(), gamePlanScheduled.participants());
+        GameId gameId = new GameId(gamePlanScheduled.gamePlanId().id());
+        gameManagement.createGame(gameId, gamePlanScheduled.roundCount(), gamePlanScheduled.roundDuration(), gamePlanScheduled.participants());
     }
 
 }

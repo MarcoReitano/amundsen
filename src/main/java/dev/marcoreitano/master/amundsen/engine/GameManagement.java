@@ -2,7 +2,6 @@ package dev.marcoreitano.master.amundsen.engine;
 
 import dev.marcoreitano.master.amundsen.engine.events.GameCreated;
 import dev.marcoreitano.master.amundsen.engine.internal.Games;
-import dev.marcoreitano.master.amundsen.planing.GamePlanId;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +19,8 @@ public class GameManagement {
     private final ApplicationEventPublisher events;
     private final Games games;
 
-    public GameId createGame(GamePlanId gamePlanId, Integer roundCount, Duration roundDuration, Set<PlayerId> participants) {
-        Game game = new Game(gamePlanId, roundCount, roundDuration, participants);
+    public GameId createGame(GameId gameId, Integer roundCount, Duration roundDuration, Set<PlayerId> participants) {
+        Game game = new Game(gameId, roundCount, roundDuration, participants);
 
         games.save(game);
 
