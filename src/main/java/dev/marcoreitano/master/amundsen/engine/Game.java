@@ -9,7 +9,6 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.time.Duration;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Transactional
@@ -23,10 +22,6 @@ public class Game extends AbstractAggregateRoot<Game> implements AggregateRoot<G
     private final Set<PlayerId> participants;
 
     private GameStatus gameStatus = GameStatus.SCHEDULED;
-
-    public Game(Integer roundCount, Duration roundDuration, Set<PlayerId> participants) {
-        this(new GameId(UUID.randomUUID()), roundCount, roundDuration, participants);
-    }
 
     public Game(GameId gameId, Integer roundCount, Duration roundDuration, Set<PlayerId> participants) {
         this.id = gameId;

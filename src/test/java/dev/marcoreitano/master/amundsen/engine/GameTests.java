@@ -25,11 +25,11 @@ public class GameTests {
     @Test
     public void createGame() {
         //Given
-        GamePlanId gamePlanId = new GamePlanId(UUID.randomUUID());
+        GameId gameId = new GameId(UUID.randomUUID());
         PlayerId playerId = new PlayerId(UUID.randomUUID());
 
         //When
-        Game game = new Game(gamePlanId, 20, Duration.ofSeconds(1), Set.of(playerId));
+        Game game = new Game(gameId, 20, Duration.ofSeconds(1), Set.of(playerId));
 
         //Then
         assertThat(game).isNotNull();

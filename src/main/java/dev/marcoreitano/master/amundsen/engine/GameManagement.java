@@ -20,6 +20,7 @@ public class GameManagement {
     private final Games games;
 
     public GameId createGame(GameId gameId, Integer roundCount, Duration roundDuration, Set<PlayerId> participants) {
+
         Game game = new Game(gameId, roundCount, roundDuration, participants);
 
         games.save(game);
