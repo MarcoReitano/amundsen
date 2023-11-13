@@ -6,6 +6,7 @@ import dev.marcoreitano.master.amundsen.registration.PlayerId;
 import org.jmolecules.event.types.DomainEvent;
 
 import java.time.Duration;
+import java.util.HashSet;
 import java.util.Set;
 
 public record GamePlanScheduled(
@@ -15,6 +16,6 @@ public record GamePlanScheduled(
         Set<PlayerId> participants
 ) implements DomainEvent {
     public GamePlanScheduled(GamePlan gamePlan) {
-        this(gamePlan.getId(), gamePlan.getRoundCount(), gamePlan.getRoundDuration(), gamePlan.getParticipants());
+        this(gamePlan.getId(), gamePlan.getRoundCount(), gamePlan.getRoundDuration(), new HashSet<>(gamePlan.getParticipants()));
     }
 }
