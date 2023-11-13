@@ -7,6 +7,6 @@ import org.jmolecules.event.types.DomainEvent;
 public record GamePlanned(GamePlanId gamePlanId, int maxRounds, int maxPlayers) implements DomainEvent {
 
     public GamePlanned(GamePlan gamePlan) {
-        this(gamePlan.getId(), gamePlan.getRoundCount(), gamePlan.getMaxPlayer());
+        this(gamePlan.getId(), gamePlan.getRoundCount(), gamePlan.getMaxPlayerCount());
     }
 }

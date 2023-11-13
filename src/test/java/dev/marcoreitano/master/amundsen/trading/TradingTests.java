@@ -7,6 +7,7 @@ import dev.marcoreitano.master.amundsen.planing.events.GamePlanned;
 import dev.marcoreitano.master.amundsen.planing.events.PlayerJoined;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
 import lombok.RequiredArgsConstructor;
+import org.jmolecules.ddd.types.Association;
 import org.junit.jupiter.api.Test;
 import org.springframework.modulith.test.ApplicationModuleTest;
 import org.springframework.modulith.test.PublishedEvents;
@@ -148,7 +149,7 @@ public class TradingTests {
         shops.save(shop.get());
 
         //When/Then
-        scenario.publish(new GamePlanScheduled(gamePlanId, 20, Duration.ofSeconds(20), Set.of(playerId)))
+        scenario.publish(new GamePlanScheduled(gamePlanId, 20, Duration.ofSeconds(20), Set.of(Association.forId(playerId))))
                 .andWaitForStateChange(() -> {
                     var persistedShop = shops.findById(shopId);
                     assertTrue(persistedShop.isPresent());

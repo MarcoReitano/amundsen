@@ -6,6 +6,7 @@ import dev.marcoreitano.master.amundsen.planing.GamePlanId;
 import dev.marcoreitano.master.amundsen.planing.events.GamePlanScheduled;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
 import lombok.RequiredArgsConstructor;
+import org.jmolecules.ddd.types.Association;
 import org.junit.jupiter.api.Test;
 import org.springframework.modulith.test.ApplicationModuleTest;
 import org.springframework.modulith.test.Scenario;
@@ -29,13 +30,14 @@ public class GameTests {
         PlayerId playerId = new PlayerId(UUID.randomUUID());
 
         //When
-        Game game = new Game(gameId, 20, Duration.ofSeconds(1), Set.of(playerId));
+        Game game = new Game(gameId, 20, Duration.ofSeconds(1), Set.of(Association.forId(playerId)));
 
         //Then
         assertThat(game).isNotNull();
         assertThat(game.getRoundCount()).isEqualTo(20);
         assertThat(game.getRoundDuration()).isEqualTo(Duration.ofSeconds(1));
-        assertThat(game.getParticipants()).isEqualTo(Set.of(playerId));
+        assertThat(game.getParticipants().size()).isEqualTo(1);
+        assertThat(game.getParticipants()).contains(Association.forId(playerId));
     }
 
     @Test

@@ -7,6 +7,7 @@ import dev.marcoreitano.master.amundsen.planing.internal.GamePlanStatus;
 import dev.marcoreitano.master.amundsen.registration.PlayerId;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.jmolecules.ddd.types.Association;
 import org.junit.jupiter.api.Test;
 import org.springframework.modulith.test.ApplicationModuleTest;
 import org.springframework.modulith.test.PublishedEvents;
@@ -39,7 +40,7 @@ public class GamePlanTests {
         assertEquals(GamePlanStatus.PLANNED, gamePlan.getStatus());
         assertEquals(58, gamePlan.getRoundCount());
         assertEquals(Duration.ofSeconds(20), gamePlan.getRoundDuration());
-        assertEquals(6, gamePlan.getMaxPlayer());
+        assertEquals(6, gamePlan.getMaxPlayerCount());
     }
 
     @Test
@@ -121,7 +122,7 @@ public class GamePlanTests {
         gamePlan.join(playerId);
 
         //Then
-        assertTrue(gamePlan.getParticipants().contains(playerId));
+        assertTrue(gamePlan.getParticipants().contains(Association.forId(playerId)));
     }
 
     @Test
