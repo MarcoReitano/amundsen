@@ -1,7 +1,6 @@
 package dev.marcoreitano.master.amundsen.round.internal;
 
 import dev.marcoreitano.master.amundsen.engine.events.GameCreated;
-import dev.marcoreitano.master.amundsen.round.Round;
 import dev.marcoreitano.master.amundsen.round.events.RoundsCreated;
 import dev.marcoreitano.master.amundsen.world.WorldCreated;
 import lombok.RequiredArgsConstructor;

@@ -31,6 +31,5 @@ public class Robot extends AbstractAggregateRoot<Robot> implements AggregateRoot
         this.playerId = Association.forId(playerId);
 
         this.planetId = Association.forId(planetId);
-
     }
 }

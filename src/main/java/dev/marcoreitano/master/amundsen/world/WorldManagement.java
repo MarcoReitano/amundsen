@@ -52,4 +52,10 @@ public class WorldManagement {
             }
         }
     }
+
+//    public void discoverPlanet(GameId gameId, RobotId robotId, PlayerId playerId, PlanetId planetId) {
+//        var planet = planets.findById(planetId);
+//
+//        planet.ifPresent(planet1 -> planet1.discover());
+//    }
 }

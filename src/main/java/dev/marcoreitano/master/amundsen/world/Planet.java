@@ -25,4 +25,8 @@ public class Planet extends AbstractAggregateRoot<Planet> implements AggregateRo
         this.coordinates = coordinates;
         this.movementDifficulty = movementDifficulty;
     }
+
+    public void discover() {
+
+    }
 }

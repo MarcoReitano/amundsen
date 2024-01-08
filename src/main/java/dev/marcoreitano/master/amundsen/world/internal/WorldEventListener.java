@@ -16,4 +16,5 @@ public class WorldEventListener {
     void handleGameCreated(GameCreated gameCreated) {
         worldManagement.generateMapByParticipants(gameCreated.gameId(), gameCreated.participants().size());
     }
+    
 }

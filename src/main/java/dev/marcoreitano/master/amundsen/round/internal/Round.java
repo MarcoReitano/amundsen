@@ -1,10 +1,10 @@
-package dev.marcoreitano.master.amundsen.round;
+package dev.marcoreitano.master.amundsen.round.internal;
 
 import dev.marcoreitano.master.amundsen.engine.Game;
 import dev.marcoreitano.master.amundsen.engine.GameId;
+import dev.marcoreitano.master.amundsen.round.RoundId;
 import dev.marcoreitano.master.amundsen.round.events.RoundEnded;
 import dev.marcoreitano.master.amundsen.round.events.RoundStarted;
-import dev.marcoreitano.master.amundsen.round.internal.RoundPhase;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jmolecules.ddd.types.AggregateRoot;
